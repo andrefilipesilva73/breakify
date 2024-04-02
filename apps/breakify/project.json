@@ -1,0 +1,9 @@
+{
+  "name": "breakify",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/breakify/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project breakify --web",
+  "targets": {}
+}
