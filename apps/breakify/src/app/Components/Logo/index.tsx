@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
 import {PeriodicElement} from '../../Documents/periodic-elements'
+import {PeriodicElementsRepository} from '../../Repositories/periodic-elements'
 
 function LogoLine({
   name,
@@ -137,12 +138,41 @@ function LogoLine({
 export function Logo({
   firstName,
   lastName,
-  elementsData,
 }: {
   firstName: string
   lastName: string
-  elementsData: Array<PeriodicElement>
 }) {
+  // Hold data
+  const [elementsData, setElementsData] = useState<Array<PeriodicElement>>([])
+
+  // On mount
+  useEffect(() => {
+    // Get database
+    let database = localStorage.getItem('database')
+
+    // Eval
+    if (!database) {
+      // Load from Api
+      PeriodicElementsRepository.instance.getPeriodicElements().then((data) => {
+        // Save to local storage
+        localStorage.setItem('database', JSON.stringify(data))
+
+        // Assign
+        database = JSON.stringify(data)
+
+        // Set state
+        setElementsData(data)
+      })
+    } else {
+      // Assign
+      const data = JSON.parse(database)
+
+      // Set state
+      setElementsData(data)
+    }
+  }, [])
+
+  // Build
   return (
     <>
       {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 368.588 219.595">

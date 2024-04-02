@@ -10,36 +10,8 @@ const defaultLastName = 'Bad'
 
 export function App() {
   // Hold data
-  const [elementsData, setElementsData] = useState<Array<PeriodicElement>>([])
   const [firstName, setFirstName] = useState(defaultFirstName)
   const [lastName, setLastName] = useState(defaultLastName)
-
-  // On mount
-  useEffect(() => {
-    // Get database
-    let database = localStorage.getItem('database')
-
-    // Eval
-    if (!database) {
-      // Load from Api
-      PeriodicElementsRepository.instance.getPeriodicElements().then((data) => {
-        // Save to local storage
-        localStorage.setItem('database', JSON.stringify(data))
-
-        // Assign
-        database = JSON.stringify(data)
-
-        // Set state
-        setElementsData(data)
-      })
-    } else {
-      // Assign
-      const data = JSON.parse(database)
-
-      // Set state
-      setElementsData(data)
-    }
-  }, [])
 
   return (
     <div className="w-full h-full flex items-center justify-center">
@@ -48,7 +20,6 @@ export function App() {
           <Logo
             firstName={firstName}
             lastName={lastName}
-            elementsData={elementsData}
           />
         </div>
         <Form
